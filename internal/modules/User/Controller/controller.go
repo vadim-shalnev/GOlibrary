@@ -2,6 +2,7 @@ package Controller
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
 	"github.com/vadim-shalnev/GOlibrary/internal/entity"
 	"net/http"
 )
@@ -41,7 +42,8 @@ func (c *AuthController) RentBook(w http.ResponseWriter, r *http.Request) {
 		c.Responder.HandleError(w, err)
 		return
 	}
-	login := chi.URLParam(r, "id")
+
+	login := chi.URLParam(r, "login")
 	b, err := c.Servicer.RentBook(book, login)
 	if err != nil {
 		c.Responder.HandleError(w, err)
@@ -56,7 +58,7 @@ func (c *AuthController) ReturnBook(w http.ResponseWriter, r *http.Request) {
 		c.Responder.HandleError(w, err)
 		return
 	}
-	login := chi.URLParam(r, "id")
+	login := chi.URLParam(r, "login")
 	resp, err := c.Servicer.ReturnBook(book, login)
 	if err != nil {
 		c.Responder.HandleError(w, err)

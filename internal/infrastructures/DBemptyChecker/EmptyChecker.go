@@ -71,8 +71,8 @@ func CreateTable(db *sql.DB) {
 	log.Println("Tables created successfully")
 }
 
-// Заполняем таблицы фековыми данными если пустые
-func checkAndFillTables(db *sql.DB) error {
+// Заполняем таблицы фейковыми данными если пустые
+func CheckAndFillTables(db *sql.DB) {
 	// Проверка и заполнение таблицы users
 	err := checkAndFillTable(db, "users", 51, func(db *sql.DB) error {
 		_, err := db.Exec(`
@@ -82,7 +82,7 @@ func checkAndFillTables(db *sql.DB) error {
 		return err
 	})
 	if err != nil {
-		return err
+		log.Println("Failed to fill table:", err)
 	}
 
 	// Проверка и заполнение таблицы authors
@@ -94,7 +94,7 @@ func checkAndFillTables(db *sql.DB) error {
 		return err
 	})
 	if err != nil {
-		return err
+		log.Println("Failed to fill table:", err)
 	}
 
 	// Проверка и заполнение таблицы books
@@ -106,10 +106,8 @@ func checkAndFillTables(db *sql.DB) error {
 		return err
 	})
 	if err != nil {
-		return err
+		log.Println("Failed to fill table:", err)
 	}
-
-	return nil
 }
 
 func checkAndFillTable(db *sql.DB, tableName string, expectedCount int, insertFunc func(*sql.DB) error) error {
